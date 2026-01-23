@@ -155,6 +155,7 @@ function llg_process_post ()
     break;
 
   default:
+    echo "E222";
     exit();
   }
 }
