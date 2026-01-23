@@ -269,7 +269,39 @@ function llg_admin_event_details_page(){
 
 function new_form_template(){
   $db = llg_db_connection();
-  mysqli_query($db, 'INSERT INTO `forms` (`template`, `name`) VALUES (\'<!-- form_template_here --!> \', \'Untitled form\')') or die (mysqli_error ($db));
+
+  $initial_form = '
+  <h2>{{event.name}}</h2>
+
+  <span class="thankyou">
+    <!-- Add your message to display after form submission here -->
+    <p>Thanks for submitting the test form. We will be in contact ASAP!</p>
+  </span>
+
+  <!-- This area will be hidden after form submission -->
+  <span id="booking-area">
+    <!-- Note required attributes in <form> element: class="llg-form", id="llg-event-form" and method="POST" -->
+    <form class="llg-form" id="llg-event-form" method="POST">
+
+      <!-- First form input field -->
+      <label for="test">Test</label>
+      <!-- Note: the "name=" attribute is used as the field name in data downloads" -->
+      <input id="test" type="text" name="test" required />
+
+      <!-- Required anti spam checker, the pass phrase is set in the config.php -->
+      <label for="anti_spam">Anti-spam complete the following: The founder of Quakerism has the first name: George and surname:</label>
+      <input type="text" name="anti_spam" id="anti_spam" placeholder="???" required>
+
+      <!-- Required submission button must have id="llg-send-form-btn" -->
+      <input type="button" id="llg-send-form-btn" value="Send!"/>
+    </form>
+
+    <!-- Optional loading spinner -->
+    <img src="{{img_url}}/spinner.gif" id="llg-spinner" alt="please wait..." />
+  </span>
+  ';
+
+  mysqli_query($db, 'INSERT INTO `forms` (`template`, `name`) VALUES (\''.$initial_form.'\', \'Untitled form\')') or die (mysqli_error ($db));
   $new_form_id = mysqli_insert_id($db);
   header('Location:'.$_SERVER['REQUEST_URI'].'&form_id='.$new_form_id.'');
 }

@@ -47,15 +47,14 @@ pre {
     <p>Available tokens:  <i>Tokens get replaced with the actual values specified in the event settings.</i> </p>
     <pre><code> &#123;&#123;event.name}} &#123;&#123;event.cost}} &#123;&#123;event.event_start_date}} &#123;&#123;event.event_end_date}}  &#123;&#123;event.booking_person_name}} </code></pre>
 
-    <p>Element ids and classes:</p>
-    <i>Eveything with class <pre><code>thankyou</code></pre> shown after submission.
-    Eveything in id <pre><code>booking-area</code></pre> shown before submission.
-    Expected form element class <pre><code>llg-form</code></pre>
-    Expected form id <pre><code>llg-event-form</code></pre>, method POST
-    </i>
+    <h3>Element ids and classes</h3>
+    <p>
+     Note: Everything with the css class <code>thankyou</code> is shown after submission. Everything with the element id <code>booking-area</code> is shown before submission and then hidden after submission.
+     The <code>&lt;form&gt;</code> element must have class <code>llg-form</code> and id <code>llg-event-form</code> using method POST. <a href="https://github.com/michaelwood/QEvents/blob/live/docs/example-form.md">See an example form.</a>
+    </p>
 
     <form action="" method="POST">
-      <label for="form-name">Name</label><br />
+      <label for="form-name">Form name</label><br />
       <input type="text" id="form-name" name="form_name" value="{{form.name}}" />
 
       <br />
