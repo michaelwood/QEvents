@@ -34,8 +34,7 @@ function booking_form_get_string ($event_name){
     return '<p>Sorry bookings are now closed. <a href="/contact">Contact for further enquiries.</a></p>';
 
   if (isset ($event_data) == 0) {
-    $ret .= "No event found E13";
-    return $ret;
+    return 'No event found E13';
   }
 
   $context = array(

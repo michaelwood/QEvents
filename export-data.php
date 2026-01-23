@@ -70,7 +70,6 @@ function skip_keys($key){
 function output_as_html($res, $event_name, $event_id){
   $table_content = array();
 
-  $col_headers_initial;
   $col_headers_previous = array();
 
   while ($row_arr = mysqli_fetch_assoc($res)) {
