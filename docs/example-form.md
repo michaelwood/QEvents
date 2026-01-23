@@ -20,12 +20,22 @@ Example form:
 
     <!-- First form input field -->
     <label for="test">Test</label>
-    <!-- Note: the "name=" attribute is used as the field name in data downloads" -->
+    <!-- Note: the "name=" attribute is used as the field name in data downloads -->
     <input id="test" type="text" name="test" required />
+
+    <!-- The primary_contact email field is used for confirmation emails -->
+    <label for="email">Email address</label>
+    <input id="email" type="email" name="primary_contact" required/>
+
+    <!-- Optional email address for a participant, if present this is CC'd with the confirmation email -->
+    <label for="participant_email">Participant email address</label>
+    <input id="participant_email" type="email" name="participant_email" />
+
 
     <!-- Required anti spam checker, the pass phrase is set in the config.php -->
     <label for="anti_spam">Anti-spam complete the following: The founder of Quakerism has the first name: George and surname:</label>
     <input type="text" name="anti_spam" id="anti_spam" placeholder="???" required>
+
 
     <!-- Required submission button must have id="llg-send-form-btn" -->
     <input type="button" id="llg-send-form-btn" value="Send!"/>
