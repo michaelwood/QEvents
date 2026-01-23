@@ -198,17 +198,17 @@ function llg_admin_forms_page(){
     'form_html' => '',
   );
 
-  if (isset($_GET['form_id'])){
+  if (isset($_GET['form_id']) && strlen($_GET['form_id']) > 0){
     $fm = new Mustache_Engine;
     $db = llg_db_connection();
 
     $form_id = mysqli_real_escape_string($db, $_GET['form_id']);
 
-    $q = mysqli_query($db, "SELECT * FROM forms WHERE id = $form_id") or die (mysqli_error ());
+    $q = mysqli_query($db, "SELECT * FROM forms WHERE id = $form_id") or die (mysqli_error ($db));
     $form = mysqli_fetch_assoc($q);
 
 
-    $form_dummy_context = array(
+    $form_example_context = array(
       'event' => array(
         'cost' => '23423',
         'booking_person_name' => 'BOOKING PERSON NAME',
@@ -221,7 +221,7 @@ function llg_admin_forms_page(){
     );
 
     $context['form'] = $form;
-    $context['form_rendered'] = $fm->render($form['template'], $form_dummy_context);
+    $context['form_rendered'] = $fm->render($form['template'], $form_example_context);
   }
 
 
