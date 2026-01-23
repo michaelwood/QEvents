@@ -67,7 +67,7 @@ https://{{domain_name}}/';
   $subject = $event_details['name'].' - form received';
 
   // Debug
-  file_put_contents('/tmp/email.txt', $mail_body);
+  // file_put_contents('/tmp/email.txt', $mail_body);
   // Reminder this may be systemd-private/.../tmp/email.txt
 
   try {
