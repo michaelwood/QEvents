@@ -77,6 +77,7 @@ function llg_register_admin_page(){
   add_menu_page ('Qevent Bookings', 'QEvents', 'manage_options', 'llg_booking_admin', 'llg_admin_page');
   add_submenu_page ('llg_booking_admin', 'Add an event', 'Add an event', 'manage_options', 'llg_new_event', 'llg_admin_add_event_page');
   add_submenu_page ('llg_booking_admin', 'Forms', 'Forms', 'manage_options', 'llg_forms', 'llg_admin_forms_page');
+  add_submenu_page ('llg_booking_admin', 'Emails', 'Emails', 'manage_options', 'llg_emails', 'llg_admin_emails_page');
   add_submenu_page ('llg_booking_admin',  'Event details', NULL, 'manage_options', 'llg_event_details', 'llg_admin_event_details_page');
 }
 
@@ -153,6 +154,20 @@ function llg_process_post ()
       new_form_template();
     }
     break;
+
+  case 'new_email_template':
+    if(llg_can_do_this()){
+      new_email_template();
+    }
+    break;
+
+  case 'update_email_template':
+    if(llg_can_do_this()){
+      update_email_template();
+    }
+    break;
+
+
 
   default:
     echo "E222";

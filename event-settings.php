@@ -27,6 +27,31 @@ function find_available_forms($selected_id=null){
   return $forms;
 }
 
+function find_available_emails($selected_id=null){
+  $db = llg_db_connection();
+
+  $res = mysqli_query($db, 'SELECT id, name from emails');
+
+  if ($error = mysqli_error($db)){
+    echo '<p>Please check your database version is up to date</p>';
+    echo $error;
+  }
+
+  $emails = mysqli_fetch_all($res, MYSQLI_ASSOC);
+
+  if (isset($selected_id)){
+    foreach ($emails as &$email){
+      if ($email['id'] == $selected_id){
+        $email['selected'] = true;
+      }
+    }
+
+    unset($email);
+  }
+
+  return $emails;
+}
+
 
 function update_event(){
 
@@ -187,6 +212,45 @@ function llg_admin_add_event_page(){
 }
 
 
+function llg_admin_emails_page(){
+  global $m;
+  $context = array(
+    'csrf' => wp_nonce_field("llg_event_dash", "llg_event_dash_csrf"),
+    'org_name' => config()['org_name'],
+    'emails' => find_available_emails($_GET['email_id']),
+    'selected_email' => $_GET['email_id'],
+  );
+
+  if (isset($_GET['email_id']) && strlen($_GET['email_id']) > 0){
+    $fm = new Mustache_Engine;
+    $db = llg_db_connection();
+
+    $email_id = mysqli_real_escape_string($db, $_GET['email_id']);
+
+    $q = mysqli_query($db, 'SELECT `id`, `name`, `template` FROM emails WHERE id = '.$email_id.' LIMIT 1') or die (mysqli_error ($db));
+    $email = mysqli_fetch_assoc($q);
+
+    $email_example_context = array(
+      'event' => array(
+        'cost' => '23423',
+        'booking_person_name' => 'BOOKING PERSON NAME',
+        'enabled' => True,
+        'event_end_date' => '11/22/33',
+        'event_start_date' => '22/44/55',
+        'name' => 'EVENT NAME',
+      ),
+      'img_url' => plugins_url('/img/', __FILE__),
+    );
+
+    $context['email'] = $email;
+    $context['email_rendered'] = $fm->render($email['template'], $email_example_context);
+  }
+
+  echo $m->render("view-emails", $context);
+}
+
+
+
 function llg_admin_forms_page(){
   global $m;
 
@@ -258,6 +322,7 @@ function llg_admin_event_details_page(){
     'event' => $event,
     'csrf' => wp_nonce_field("llg_event_dash", "llg_event_dash_csrf"),
     'forms' => find_available_forms($event["form_id"]),
+    'emails' => find_available_emails($event["email_id"]),
     'this_page' => $_GET['page'],
     'bad_pass' => ($_GET['bad_pass'] == 1),
   );
@@ -325,6 +390,48 @@ function update_form_template(){
   $form_name = mysqli_real_escape_string($db, $_POST["form_name"]);
 
   mysqli_query($db, 'UPDATE `forms` SET `template`=\''.$form_template.'\', `name`="'.$form_name.'" WHERE `id`='.$form_id.'') or die (mysqli_error());
+}
+
+function new_email_template(){
+  $initial_email= '
+Hello,
+
+We have received your booking{{#form_data.participant_name}} for {{form_data.participant_name}}{{/form_data.participant_name}}.
+
+The booking reference is #{{booking_id}}. Important please keep a note of this reference and use it in future correspondence or any applicable payments.
+
+If there are any problems please do not hesitate to contact the bookings person for this event (CC).
+
+Thank You
+
+--
+https://{{domain_name}}/';
+
+  $db = llg_db_connection();
+  mysqli_query($db, 'INSERT INTO `emails` (`template`, `name`) VALUES (\''.$initial_email.'\', \'Untitled email\')') or die (mysqli_error ($db));
+  $new_form_id = mysqli_insert_id($db);
+  header('Location:'.$_SERVER['REQUEST_URI'].'&form_id='.$new_form_id.'');
+}
+
+function update_email_template(){
+  if (
+    !isset($_POST['email_id']) ||
+    !isset($_POST['email_template']) ||
+    !isset($_POST['email_name'])){
+
+    echo "E456 email template not set";
+    return;
+  }
+
+  $db = llg_db_connection();
+
+  $email_id = mysqli_real_escape_string($db, $_POST["email_id"]);
+  /* if magic quotes is enabled this will end up double escaped */
+  /* https://stackoverflow.com/questions/1522313/php-mysql-real-escape-string-stripslashes-leaving-multiple-slashes */
+  $email_template = mysqli_real_escape_string($db, stripslashes(trim($_POST["email_template"])));
+  $email_name = mysqli_real_escape_string($db, $_POST["email_name"]);
+
+  mysqli_query($db, 'UPDATE `emails` SET `template`=\''.$email_template.'\', `name`="'.$email_name.'" WHERE `id`='.$email_id.'') or die (mysqli_error($db));
 }
 
 ?>

@@ -10,14 +10,24 @@
     <ul>
         <li>Number of responses: <strong>{{event.num_bookings}}</strong></li>
         <li title="Link to form">Published at: <a href="{{event.page_link}}">{{event.page_link}}</a> | <a href="{{& event.edit_page_link}}" title="Edit page contents">Edit</a></li>
-        <li>Cost: {{event.cost}}</li>
+        {{#event.cost}}<li>Cost: {{event.cost}}</li>{{/event.cost}}
+        <li>Form:
+         {{#forms}}
+          {{#selected}} {{name}} {{/selected}}
+        {{/forms}}
+        </li>
+        <li>Confirmation email:
+        {{#emails}}
+          {{#selected}} {{name}} {{/selected}}
+        {{/emails}}
+        </li>
         <li>Contact person: {{event.booking_person_name}} ({{event.booking_person_email}})</li>
         <li>Status: {{#event.enabled}}Open{{/event.enabled}} {{^event.enabled}}Closed{{/event.enabled}} </li>
         <li title="">Embed short code: <pre style="display: inline-block"><code>[qevent="{{event.name}}"]</code></pre> <i>Insert this code into any page to embed the online form.</i></li>
     </ul>
 
     <a href="#data" class="button">View Responses</a>
-    <a href="#change-details" class="button">Change Details</a>
+    <a href="#change-details" class="button">Edit Details</a>
     <a href="#delete-event" class="button">Delete</a>
 
     <div id="data" style="display:none">
@@ -55,7 +65,7 @@
     </div>
 
     <div id="change-details" style="display:none">
-        <h2 class="title">Change Details</h2>
+        <h2 class="title">Edit Details</h2>
 
         <form class="llg-form" id="llg-update-event-form-{{event.id}}" method="POST" action="?page={{this_page}}&amp;event_id={{event.id}}">
         {{& csrf}}
@@ -133,6 +143,18 @@
                 {{/forms}}
                 </select>
                 <p class="description">The form template to be used. See <a href="?page=llg_forms">form previews</a> to view available form templates. Changing the form whilst in use is not recommended.</p>
+            </td>
+        </tr>
+
+        <tr>
+            <th><label for="{{event.id}}-form_template">Email</label></th>
+            <td>
+                <select id="{{event.id}}-form_template" name="email_id" />
+                {{#emails}}
+                <option value="{{id}}" {{#selected}}selected=selected{{/selected}}>{{name}}</option>
+                {{/emails}}
+                </select>
+                <p class="description">The confirmation email template to be used. See <a href="?page=llg_emails">Email previews</a> to view available email templates. Changing the email whilst in use is not recommended.</p>
             </td>
         </tr>
 

@@ -1,0 +1,60 @@
+<style scoped>
+pre {
+  display: inline-block;
+}
+</style>
+
+<div class="wrap">
+  <h2 style="display: inline-block">Emails</h2>
+  <form style="display: inline-block" method="POST">
+    {{& csrf}}
+    <input type="hidden" name="llg_post_action" value="new_email_template" />
+    <input type="submit" value="Add new" class="add-new-h2" />
+  </form>
+  <p>Email confirmation template to use after form submission. Emails are sent to the <code>primary_email</code> and if exists CC <code>participant_email</code> values in the form.</p>
+  <div class="form-wrap">
+    <form method="GET" id="select-email-form">
+      <div class="form-field">
+        <label style="display: inline-block" for="select-email">Select an email template to edit or preview</label>
+        <select id="select-email" name="email_id" onchange="document.getElementById('select-email-form').submit()">
+          <option value="" >-</option>
+          {{#emails}}
+          <option value="{{id}}" {{#selected}}selected=selected{{/selected}} >{{name}}</option>
+          {{/emails}}
+        </select>
+        <input type="hidden" name="page" value="llg_emails" />
+      </div>
+      {{& csrf}}
+    </form>
+  </div>
+
+  <hr />
+  {{#selected_email}}
+  <h2>{{email.name}}</h2>
+
+  <div id="email-edit">
+    <p>Available tokens:  <i>Tokens get replaced with the actual values specified in the event settings.</i> </p>
+    <code> &#123;&#123;event.name}}</code> <code>&#123;&#123;event.cost}}</code> <code>&#123;&#123;event.event_start_date}}</code> <code>&#123;&#123;event.event_end_date}}</code> <code>&#123;&#123;event.booking_person_name}}</code>
+    <code> &#123;&#123;form_data.&lt;any field name in the form&gt;}} </code>
+    <code> &#123;&#123;domain_name}} </code>
+    <code> &#123;&#123;booking_id}} </code>
+    </p>
+
+    <form action="" method="POST">
+      <label for="email-name">Template name</label><br />
+      <input type="text" id="email-name" name="email_name" value="{{email.name}}" />
+
+      <br />
+      <label for="email-template">Template</label>
+      <textarea id="email-template" name="email_template" style="width:100%; height: 60vh !important" >
+        {{email.template}}
+      </textarea>
+      {{& csrf}}
+      <input type="hidden" name="email_id" value="{{email.id}}" />
+      <input type="hidden" name="llg_post_action" value="update_email_template" />
+      <input type="submit" value="Save" class="button button-primary" />
+    </form>
+  </div>
+
+  {{/selected_email}}
+</div>
