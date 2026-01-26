@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: QEventBookings
-Plugin URI: http://michaelwood.me.uk
+Plugin URI: https://michaelwood.me.uk
 Description: Plugin to manage simple booking forms
 Author: Michael Wood
-Version: 2.0
-Author URI: http://michaelwood.me.uk
+Version: 3.0
+Author URI: https://michaelwood.me.uk
 */
 
 
