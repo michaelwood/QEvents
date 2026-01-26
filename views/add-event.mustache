@@ -60,7 +60,18 @@
           <option value="{{id}}">{{name}}</option>
           {{/forms}}
         </select>
-        <p><i>See form <a href="?page=llg_forms" target="_blank">previews</a> to view available form templates</i></p>
+        <p><i>See form <a href="?page=llg_forms" target="_blank">previews</a> to view and edit form templates</i></p>
+      </div>
+
+      <div class="form-field">
+        <label for="select-email">Select a confirmation email template to use<br /></label>
+        <select id="select-email" name="email_id" />
+          <option value="">-</option>
+          {{#emails}}
+          <option value="{{id}}">{{name}}</option>
+          {{/emails}}
+        </select>
+        <p><i>See email <a href="?page=llg_emails" target="_blank">previews</a> to view and edit available templates</i></p>
       </div>
 
       <div class="form-field">

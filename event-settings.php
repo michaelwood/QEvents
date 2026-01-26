@@ -206,6 +206,7 @@ function llg_admin_add_event_page(){
     'csrf' => wp_nonce_field("llg_event_dash", "llg_event_dash_csrf"),
     'org_name' => config()['org_name'],
     'forms' => find_available_forms(),
+    'emails' => find_available_emails(),
   );
 
   echo $m->render("add-event", $context);
