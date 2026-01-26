@@ -4,7 +4,7 @@ Plugin Name: QEventBookings
 Plugin URI: https://michaelwood.me.uk
 Description: Plugin to manage simple booking forms
 Author: Michael Wood
-Version: 3.0
+Version: 3.1
 Author URI: https://michaelwood.me.uk
 */
 
