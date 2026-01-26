@@ -8,13 +8,13 @@ Example form:
 ```html
 <h2>{{event.name}}</h2>
 
-<span class="thankyou">
+<span id="llg-thank-you">
   <!-- Add your message to display after form submission here -->
   <p>Thanks for submitting the test form. We will be in contact ASAP!</p>
 </span>
 
 <!-- This area will be hidden after form submission -->
-<span id="booking-area">
+<span id="llg-booking-area">
   <!-- Note required attributes in <form> element: class="llg-form", id="llg-event-form" and method="POST" -->
 	<form class="llg-form" id="llg-event-form" method="POST">
 
