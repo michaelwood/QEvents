@@ -410,8 +410,8 @@ https://{{domain_name}}/';
 
   $db = llg_db_connection();
   mysqli_query($db, 'INSERT INTO `emails` (`template`, `name`) VALUES (\''.$initial_email.'\', \'Untitled email\')') or die (mysqli_error ($db));
-  $new_form_id = mysqli_insert_id($db);
-  header('Location:'.$_SERVER['REQUEST_URI'].'&form_id='.$new_form_id.'');
+  $new_email_id = mysqli_insert_id($db);
+  header('Location:'.$_SERVER['REQUEST_URI'].'&email_id='.$new_email_id.'');
 }
 
 function update_email_template(){
