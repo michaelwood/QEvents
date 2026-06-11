@@ -12,6 +12,21 @@ pre {
     <input type="submit" value="Add new" class="add-new-h2" />
   </form>
   <p>Email confirmation template to use after form submission. Emails are sent to the <code>primary_email</code> and if exists CC <code>participant_email</code> values in the form.</p>
+  <p>If none specified the following default is used:</p>
+  <pre>
+  Hello,
+
+  We have received your booking{{#form_data.participant_name}} for {{form_data.participant_name}}{{/form_data.participant_name}}.
+
+  The booking reference is #{{booking_id}}. Important please keep a note of this reference and use it in future correspondence or any applicable payments.
+
+  If there are any problems please do not hesitate to contact the bookings person for this event (CC).
+
+  Thank You
+
+  --
+  https://{{domain_name}}/
+  </pre>
   <div class="form-wrap">
     <form method="GET" id="select-email-form">
       <div class="form-field">
