@@ -31,6 +31,20 @@ function save_booking(){
     exit_with_error("E100");
   }
 
+  if (!is_string($_POST['event_id'])){
+    exit_with_error("E99");
+  }
+
+  $event_id = filter_var(
+    wp_unslash($_POST['event_id']),
+    FILTER_VALIDATE_INT,
+    array('options' => array('min_range' => 1))
+  );
+
+  if ($event_id === false){
+    exit_with_error("E99");
+  }
+
   /* We do this because PHP and everything inbetween likes to mess with
    * the content, see also magic quotes, $_POST sanitisation, encoding issues
    * etc..
@@ -56,12 +70,48 @@ function save_booking(){
 
   $db = llg_db_connection();
 
-  $event_id = mysqli_real_escape_string($db, $_POST['event_id']);
+  $select_booking_det = 'SELECT `name`, `booking_person_email`, `password`, `email_id`, `enabled` FROM `events` WHERE id=? LIMIT 1';
+  $booking_det_stmt = mysqli_prepare($db, $select_booking_det);
+  if (!$booking_det_stmt){
+    exit_with_error("E105", mysqli_error($db) . $select_booking_det);
+  }
 
-  $select_booking_det = 'SELECT `name`, `booking_person_email`, `password`, `email_id` FROM `events` WHERE id='.$event_id.' LIMIT 1';
+  if (!mysqli_stmt_bind_param($booking_det_stmt, 'i', $event_id) ||
+      !mysqli_stmt_execute($booking_det_stmt)){
+    mysqli_stmt_close($booking_det_stmt);
+    exit_with_error("E105");
+  }
 
-  $res = mysqli_query($db, $select_booking_det) or exit_with_error("E105", mysqli_error($db) . $select_booking_det);
-  $event_details = mysqli_fetch_assoc($res);
+  if (!mysqli_stmt_bind_result(
+    $booking_det_stmt,
+    $event_name,
+    $booking_person_email,
+    $event_password,
+    $email_id,
+    $event_enabled
+  )){
+    mysqli_stmt_close($booking_det_stmt);
+    exit_with_error("E105");
+  }
+
+  if (!mysqli_stmt_fetch($booking_det_stmt)){
+    mysqli_stmt_close($booking_det_stmt);
+    exit_with_error("E106");
+  }
+
+  mysqli_stmt_close($booking_det_stmt);
+
+  if ((int)$event_enabled !== 1){
+    exit_with_error("E106");
+  }
+
+  $event_details = array(
+    'name' => $event_name,
+    'booking_person_email' => $booking_person_email,
+    'password' => $event_password,
+    'email_id' => $email_id,
+    'enabled' => $event_enabled,
+  );
 
   $pw = $event_details['password'];
   $salt = file_get_contents($config['saltfile'], FILE_USE_INCLUDE_PATH);
