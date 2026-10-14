@@ -65,9 +65,7 @@ pre {
 
       <br />
       <label for="form-template">Template</label>
-      <textarea id="form-template" name="form_template" style="width:100%; height: 60vh !important" >
-        {{form.template}}
-      </textarea>
+      <textarea id="form-template" name="form_template" style="width:100%; height: 60vh !important">{{form.template}}</textarea>
       {{& csrf}}
       <input type="hidden" name="form_id" value="{{form.id}}" />
       <input type="hidden" name="llg_post_action" value="update_form_template" />
