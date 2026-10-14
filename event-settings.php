@@ -287,8 +287,10 @@ function llg_admin_forms_page(){
 
     $context['form'] = $form;
     $theme_stylesheet_url = get_stylesheet_uri();
+    $plugin_stylesheet_url = plugins_url('/css/llg-style.css', __FILE__);
     $context['form_rendered'] = '<!doctype html><html><head><meta charset="UTF-8">'
       . '<link rel="stylesheet" href="'.esc_url($theme_stylesheet_url).'">'
+      . '<link rel="stylesheet" href="'.esc_url($plugin_stylesheet_url).'">'
       . '</head><body>'
       . $fm->render($form['template'], $form_example_context)
       . '</body></html>';
