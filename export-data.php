@@ -159,6 +159,12 @@ function output_as_html($res, $event_name, $event_id){
  * quote then we replace this and also quote the whole value.
  */
 function clean_up_str($string){
+  $string = (string)$string;
+  if (preg_match('/^[\x00-\x20]*[=+\-@]/', $string) ||
+      preg_match('/^[\t\r\n]/', $string)){
+    $string = "'".$string;
+  }
+
   $string = str_replace("\"", "'", $string);
   $string = '"'.$string.'"';
 
