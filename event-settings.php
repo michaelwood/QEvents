@@ -291,9 +291,9 @@ function llg_admin_forms_page(){
     $context['form_rendered'] = '<!doctype html><html><head><meta charset="UTF-8">'
       . '<link rel="stylesheet" href="'.esc_url($theme_stylesheet_url).'">'
       . '<link rel="stylesheet" href="'.esc_url($plugin_stylesheet_url).'">'
-      . '</head><body>'
+      . '</head><body><div class="posts"><div class="post"><div class="post-content">'
       . $fm->render($form['template'], $form_example_context)
-      . '</body></html>';
+      . '</div></div></div></body></html>';
   }
 
 
