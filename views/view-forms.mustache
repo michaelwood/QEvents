@@ -36,9 +36,15 @@ pre {
 
   <div id="form-preview">
     <h2>Preview</h2>
-    <p>Please note styling will change to match current theme. Changes must be saved to see in preview.</p>
+    <p>The preview is isolated from this page, so styling may differ from the current theme. Changes must be saved to see in preview.</p>
     <div style="border: 1px solid #8c8f94; border-radius: 4px; padding: 5px">
-    {{& form_rendered}}
+      <iframe
+        title="Form preview"
+        sandbox=""
+        referrerpolicy="no-referrer"
+        srcdoc="{{form_rendered}}"
+        style="width: 100%; height: 60vh; border: 0"
+      ></iframe>
     </div>
   </div>
 
