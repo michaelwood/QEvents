@@ -30,13 +30,13 @@ pre {
   <hr />
   {{#selected_form}}
   <h2>{{form.name}}</h2>
-  <a href="#preview" style="display: inline-block" class="button" onclick="document.getElementById('form-preview').style.display = 'block'; document.getElementById('form-edit').style.display = 'none'">Preview</a>
+  <a href="#preview" style="display: inline-block" class="button" onclick="document.getElementById('form-preview').style.display = 'block'; document.getElementById('form-edit').style.display = 'none'">View</a>
   <a href="#code" style="display: inline-block" class="button" onclick="document.getElementById('form-preview').style.display = 'none'; document.getElementById('form-edit').style.display = 'block'" >Edit</a>
 
 
   <div id="form-preview">
-    <h2>Preview</h2>
-    <p>The preview loads the active theme's main stylesheet and the plugin stylesheet. Additional theme styles and page layout may differ. Changes must be saved to see in preview.</p>
+    <h2>View</h2>
+    <p>Additional theme styles and page layout may differ. Changes must be saved to see in preview. It is not recommended to change a form that is live.</p>
     <div style="border: 1px solid #8c8f94; border-radius: 4px; padding: 5px">
       <iframe
         title="Form preview"
