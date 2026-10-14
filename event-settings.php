@@ -286,7 +286,12 @@ function llg_admin_forms_page(){
     );
 
     $context['form'] = $form;
-    $context['form_rendered'] = $fm->render($form['template'], $form_example_context);
+    $theme_stylesheet_url = get_stylesheet_uri();
+    $context['form_rendered'] = '<!doctype html><html><head><meta charset="UTF-8">'
+      . '<link rel="stylesheet" href="'.esc_url($theme_stylesheet_url).'">'
+      . '</head><body>'
+      . $fm->render($form['template'], $form_example_context)
+      . '</body></html>';
   }
 
 
